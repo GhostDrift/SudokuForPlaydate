@@ -1,0 +1,6 @@
+name=Sudoku
+author=Jessica Stojkovic
+description=This is a sudoku game for Playdate
+bundleID=com.organization.package
+version=0.0.1
+buildNumber=1
