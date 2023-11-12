@@ -40,16 +40,40 @@ function MenuScene:prepareSprites()
         gfx.drawTextAligned(newGameText,59,10,kTextAlignment.center)
     gfx.popContext()
     -- make the selected sprite
-    -- gfx.setColor(gfx.kColorWhite)
     self.newGameImageSelected = gfx.image.new(119,38)
     gfx.pushContext(self.newGameImageSelected)
         gfx.fillRoundRect(2,2,116,35,5)
+        gfx.setColor(gfx.kColorWhite)
+        gfx.setLineWidth(2)
+        gfx.drawRoundRect(4,4,112,31,5)
+        gfx.setColor(gfx.kColorBlack)
         gfx.drawTextAligned(newGameText,59,10,kTextAlignment.center)
     gfx.popContext()
-    self.newGameSprite = gfx.sprite.new(self.newGameimageUnselected)
+    self.newGameSprite = gfx.sprite.new(self.newGameImageSelected)
     self.newGameSprite:moveTo(200,90)
     self.newGameSprite:add()
-    self.selectedButton = 0
+    --make sprite for resume game button
+    --unselected 
+    local resumeGameText = "Resume Game"
+    self.resumeGameImageUnselected = gfx.image.new(150,38)
+    gfx.pushContext(self.resumeGameImageUnselected)
+        gfx.drawRoundRect(2,2,146,35,5)
+        gfx.drawTextAligned(resumeGameText,75,10,kTextAlignment.center)
+    gfx.popContext()
+    --selected
+    self.resumeGameImageSelected = gfx.image.new(156,38)
+    gfx.pushContext(self.resumeGameImageSelected)
+        gfx.fillRoundRect(2,2,152,35,5)
+        gfx.setColor(gfx.kColorWhite)
+        gfx.setLineWidth(2)
+        gfx.drawRoundRect(4,4,148,31,5)
+        gfx.setColor(gfx.kColorBlack)
+        gfx.drawTextAligned(resumeGameText,77,10,kTextAlignment.center)
+    gfx.popContext()
+    self.resumeGameSprite = gfx.sprite.new(self.resumeGameImageUnselected)
+    self.resumeGameSprite:moveTo(200,135)
+    self.resumeGameSprite:add()
+    self.selectedButton = 1
 end
 
 function MenuScene:changeSelection()
