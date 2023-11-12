@@ -35,7 +35,7 @@ function MenuScene:prepareSprites()
     gfx.setFont(fontNontendoBoldOutline1AndOneHalfX)
     local newGameText = "New Game"
     self.newGameImageUnselected = gfx.image.new(119,38,gfx.kColorWhite)
-    gfx.setLineWidth(3)
+    gfx.setLineWidth(2)
     gfx.pushContext(self.newGameImageUnselected)
         gfx.drawRoundRect(2,2,116,35,5)
         gfx.drawTextAligned(newGameText,59,10,kTextAlignment.center)
@@ -56,10 +56,10 @@ function MenuScene:prepareSprites()
     --make sprite for resume game button
     --unselected 
     local resumeGameText = "Resume Game"
-    self.resumeGameImageUnselected = gfx.image.new(150,38)
+    self.resumeGameImageUnselected = gfx.image.new(156,38)
     gfx.pushContext(self.resumeGameImageUnselected)
-        gfx.drawRoundRect(2,2,146,35,5)
-        gfx.drawTextAligned(resumeGameText,75,10,kTextAlignment.center)
+        gfx.drawRoundRect(2,2,152,35,5)
+        gfx.drawTextAligned(resumeGameText,77,10,kTextAlignment.center)
     gfx.popContext()
     --selected
     self.resumeGameImageSelected = gfx.image.new(156,38)
@@ -74,6 +74,27 @@ function MenuScene:prepareSprites()
     self.resumeGameSprite = gfx.sprite.new(self.resumeGameImageUnselected)
     self.resumeGameSprite:moveTo(200,135)
     self.resumeGameSprite:add()
+    --make sprite for how to play button
+    --unselected
+    local howToPlayText = "How To Play"
+    self.howToPlayImageUnselected = gfx.image.new(152,38)
+    gfx.pushContext(self.howToPlayImageUnselected)
+        gfx.drawRoundRect(2,2,146,35,5)
+        gfx.drawTextAligned(howToPlayText,75,10,kTextAlignment.center)
+    gfx.popContext()
+    --selected
+    self.howToPlayImageSelected = gfx.image.new(152,38)
+    gfx.pushContext(self.howToPlayImageSelected)
+        gfx.fillRoundRect(2,2,146,35,5)
+        gfx.setColor(gfx.kColorWhite)
+        gfx.setLineWidth(2)
+        gfx.drawRoundRect(4,4,142,31,5)
+        gfx.setColor(gfx.kColorBlack)
+        gfx.drawTextAligned(howToPlayText,75,10,kTextAlignment.center)
+    gfx.popContext()
+    self.howToPlaySprite = gfx.sprite.new(self.howToPlayImageUnselected)
+    self.howToPlaySprite:moveTo(201,183)
+    self.howToPlaySprite:add()
     self.selectedButton = 1
 end
 
@@ -90,7 +111,7 @@ function MenuScene:changeSelection()
     end
     if(ticks ~= 0)then
         self.selectedButton += ticks
-        if(self.selectedButton > 2) then
+        if(self.selectedButton > 3) then
             self.selectedButton = 2
         elseif (self.selectedButton < 1) then
             self.selectedButton = 1
@@ -98,9 +119,15 @@ function MenuScene:changeSelection()
         if(self.selectedButton == 1) then
             self.newGameSprite:setImage(self.newGameImageSelected)
             self.resumeGameSprite:setImage(self.resumeGameImageUnselected)
+            self.howToPlaySprite:setImage(self.howToPlayImageUnselected)
         elseif(self.selectedButton == 2) then
             self.newGameSprite:setImage(self.newGameImageUnselected)
             self.resumeGameSprite:setImage(self.resumeGameImageSelected)
+            self.howToPlaySprite:setImage(self.howToPlayImageUnselected)
+        elseif(self.selectedButton == 3) then
+            self.newGameSprite:setImage(self.newGameImageUnselected)
+            self.resumeGameSprite:setImage(self.resumeGameImageUnselected)
+            self.howToPlaySprite:setImage(self.howToPlayImageSelected)
         end
     end
 end
