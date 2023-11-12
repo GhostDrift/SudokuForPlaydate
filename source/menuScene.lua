@@ -5,6 +5,7 @@
 -- version: 0.0.1
 
 --********************Constants**********************
+import "Corelibs/crank"
 local pd <const> = playdate
 local gfx <const> = pd.graphics
 
@@ -33,9 +34,9 @@ function MenuScene:prepareSprites()
     -- make the unselected image
     gfx.setFont(fontNontendoBoldOutline1AndOneHalfX)
     local newGameText = "New Game"
-    self.newGameimageUnselected = gfx.image.new(119,38,gfx.kColorWhite)
+    self.newGameImageUnselected = gfx.image.new(119,38,gfx.kColorWhite)
     gfx.setLineWidth(3)
-    gfx.pushContext(self.newGameimageUnselected)
+    gfx.pushContext(self.newGameImageUnselected)
         gfx.drawRoundRect(2,2,116,35,5)
         gfx.drawTextAligned(newGameText,59,10,kTextAlignment.center)
     gfx.popContext()
@@ -77,20 +78,33 @@ function MenuScene:prepareSprites()
 end
 
 function MenuScene:changeSelection()
-    if(self.selectedButton == 0)then
-        self.newGameSprite:setImage(self.newGameImageSelected)
-        self.selectedButton = 1
-    else
-        self.newGameSprite:setImage(self.newGameimageUnselected)
-        self.selectedButton = 0
+    local ticks = 0
+    if  not pd.isCrankDocked() then
+        ticks = pd.getCrankTicks(4)
+    end
+    if(pd.buttonJustPressed(pd.kButtonDown))then
+        ticks = 1
+    end
+    if(pd.buttonJustPressed(pd.kButtonUp))then
+        ticks = -1
+    end
+    if(ticks ~= 0)then
+        self.selectedButton += ticks
+        if(self.selectedButton > 2) then
+            self.selectedButton = 2
+        elseif (self.selectedButton < 1) then
+            self.selectedButton = 1
+        end
+        if(self.selectedButton == 1) then
+            self.newGameSprite:setImage(self.newGameImageSelected)
+            self.resumeGameSprite:setImage(self.resumeGameImageUnselected)
+        elseif(self.selectedButton == 2) then
+            self.newGameSprite:setImage(self.newGameImageUnselected)
+            self.resumeGameSprite:setImage(self.resumeGameImageSelected)
+        end
     end
 end
 
 function MenuScene:update()
-    if(pd.buttonJustPressed(pd.kButtonA))then
-        screenShakeSprite:setShakeAmount(10)
-    end
-    if(pd.buttonJustPressed(pd.kButtonB))then
-        self:changeSelection()
-    end
+    self:changeSelection()
 end
